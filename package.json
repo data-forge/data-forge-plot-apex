@@ -1,0 +1,61 @@
+{
+    "name": "@data-forge-plot/c3",
+    "version": "0.0.10",
+    "description": "Plugin to Data-Forge Plot that integrates support for the C3 charting library.",
+    "main": "build/index.js",
+    "types": "build/index.d.ts",
+    "scripts": {
+        "c": "npm run clean",
+        "clean": "rm -rf build/*",
+        "b": "npm run build",
+        "build": "npm run build:template && npm run build:lib",
+        "build:template": "webpack --config webpack.template.config.js",
+        "build:lib": "webpack --config webpack.lib.config.js",
+        "cb": "npm run clean-build",
+        "clean-build": "npm run clean && npm run build",
+        "prepublishOnly": "npm test && npm run clean-build",
+        "l": "npm run lint",
+        "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+        "pretest": "npm run lint",
+        "t": "npm run test",
+        "test": "jest",
+        "tw": "npm run test:watch",
+        "test:watch": "jest --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/data-forge/data-forge-plot-c3.git"
+    },
+    "keywords": [],
+    "author": "ashley@codecapers.com.au",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/data-forge/data-forge-plot-c3/issues"
+    },
+    "homepage": "https://github.com/data-forge/data-forge-plot-c3#readme",
+    "dependencies": {
+        "@data-forge-plot/chart-def": "^1.0.1",
+        "@data-forge/serialization": "^1.0.0",
+        "apexcharts": "^3.6.5",
+        "moment": "^2.24.0",
+        "numeral": "^2.0.6"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.6",
+        "@types/node": "10.11.4",
+        "@types/numeral": "0.0.25",
+        "@types/sugar": "^2.0.2",
+        "copy-webpack-plugin": "^5.0.2",
+        "jest": "^24.1.0",
+        "source-map-support": "0.5.9",
+        "sugar": "^2.0.6",
+        "ts-jest": "^23.10.5",
+        "ts-loader": "^5.3.3",
+        "ts-node": "7.0.1",
+        "tslint": "^5.12.1",
+        "typescript": "^3.1.1",
+        "webpack": "^4.29.6",
+        "webpack-cli": "^3.3.0",
+        "webpack-node-externals": "^1.7.2"
+    }
+}
