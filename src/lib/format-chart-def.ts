@@ -1,4 +1,4 @@
-import { IChartDef, ISingleYAxisMap, ISingleAxisMap, IAxisConfig, IExpandedAxisConfig, IExpandedYAxisConfig, ChartType } from "@data-forge-plot/chart-def";
+import { IChartDef, ISingleYAxisMap, ISingleAxisMap, IAxisConfig, IExpandedAxisConfig, IExpandedYAxisConfig, ChartType, IExpandedAxisMap } from "@data-forge-plot/chart-def";
 import * as moment from "moment"; //fio: ???
 import * as numeral from "numeral"; //fio: ???
 import { ApexOptions } from "apexcharts";
@@ -14,11 +14,19 @@ function extractSingleSeries(columnName: string, values: any[], indexValues: any
 //
 // Extract series from the chart definition's data.
 //
-function extractAllSeries(data: ISerializedDataFrame): ApexAxisChartSeries {
-    return data.columnOrder.map(columnName => ({ 
+function extractSeries(data: ISerializedDataFrame, axisMap: IExpandedAxisMap): ApexAxisChartSeries {
+    const columnNames = axisMap.y.map(axis => axis.series);
+    return columnNames.map(columnName => ({ 
         name: columnName, 
         data: extractSingleSeries(columnName, data.values, data.index.values),
     }));
+}
+
+//
+// Get the value or if undefined, provide the default.
+//
+function valueOrDefault<T>(value: T | undefined, defaultValue: T): T {
+    return value !== undefined && value || defaultValue;
 }
 
 /**
@@ -28,7 +36,12 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     return {
         chart: {
             type: inputChartDef.plotConfig.chartType,
+            width: valueOrDefault<number>(inputChartDef.plotConfig.width, 1200),
+            height: valueOrDefault<number>(inputChartDef.plotConfig.height, 600),
+            animations: {
+                enabled: false,
+            },
         },
-        series: extractAllSeries(inputChartDef.data),
+        series: extractSeries(inputChartDef.data, inputChartDef.axisMap),
     };
 }

@@ -20,6 +20,9 @@ export interface ITestChartDef {
 
 describe("format chart def", () => {
 
+    const defaultChartWidth = 1200;
+    const defaultChartHeight = 600;
+
     it("can set chart type", () => {
 
         const chartDef: any = {
@@ -28,13 +31,70 @@ describe("format chart def", () => {
             },
             data: {
                 columnOrder: [],
-            }
+            },
+            axisMap: {
+                y: [],
+            },
         };
         const formatted = formatChartDef(chartDef);
         expect(formatted.chart!.type).toBe("bar");
 
     });
 
+    it("animations are disabled", () => {
+        const chartDef: any = {
+            plotConfig: {
+                chartType: ChartType.Line,
+            },
+            data: {
+                columnOrder: [],
+            },
+            axisMap: {
+                y: [],
+            },
+        };
+        const formatted = formatChartDef(chartDef);
+        expect(formatted.chart!.animations!.enabled).toBe(false);
+    });
+
+    it("width and height are defaulted if not supplied", () => {
+        const chartDef: any = {
+            plotConfig: {
+                chartType: ChartType.Line,
+            },
+            data: {
+                columnOrder: [],
+            },
+            axisMap: {
+                y: [],
+            },
+        };
+        const formatted = formatChartDef(chartDef);
+        expect(formatted.chart!.width).toBe(defaultChartWidth);
+        expect(formatted.chart!.height).toBe(defaultChartHeight);
+    });
+
+    it("width and height are passed through if supplied", () => {
+        const width = 22;
+        const height = 53;
+        const chartDef: any = {
+            plotConfig: {
+                chartType: ChartType.Line,
+                width,
+                height,
+            },
+            data: {
+                columnOrder: [],
+            },
+            axisMap: {
+                y: [],
+            },
+        };
+        const formatted = formatChartDef(chartDef);
+        expect(formatted.chart!.width).toBe(width);
+        expect(formatted.chart!.height).toBe(height);
+    });
+    
     it("can plot single series with default index", () => {
 
         const chartDef: any = {
@@ -62,11 +122,23 @@ describe("format chart def", () => {
                     },
                 ],
             },
+            axisMap: {
+                y: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
         };
         const formatted = formatChartDef(chartDef);
         expect(formatted).toEqual({
             chart: {
                 type: "line",
+                width: defaultChartWidth,
+                height: defaultChartHeight,
+                animations: {
+                    enabled: false,
+                },
             },
             series: [
                 {
@@ -121,11 +193,26 @@ describe("format chart def", () => {
                     },
                 ],
             },
+            axisMap: {
+                y: [
+                    {
+                        series: "a",
+                    },
+                    {
+                        series: "b",
+                    },
+                ],
+            },
         };
         const formatted = formatChartDef(chartDef);
         expect(formatted).toEqual({
             chart: {
                 type: "line",
+                width: defaultChartWidth,
+                height: defaultChartHeight,
+                animations: {
+                    enabled: false,
+                },
             },
             series: [
                 {
@@ -166,6 +253,77 @@ describe("format chart def", () => {
         });
     });
     
+    it("can pluck single series for y axis", () => {
+
+        const chartDef: any = {
+            plotConfig: {
+                chartType: ChartType.Line,
+            },
+            data: {
+                columnOrder: ["a", "b"],
+                columnTypes: {
+                    a: "number",
+                    b: "number",
+                },
+                index: {
+                    type: "number",
+                    values: [2, 3, 4],
+                },
+                values: [
+                    {
+                        a: 10,
+                        b: 100,
+                    },
+                    {
+                        a: 20,
+                        b: 200,
+                    },
+                    {
+                        a: 30,
+                        b: 300,
+                    },
+                ],
+            },
+            axisMap: {
+                y: [
+                    {
+                        series: "b",
+                    },
+                ],
+            },
+        };
+        const formatted = formatChartDef(chartDef);
+        expect(formatted).toEqual({
+            chart: {
+                type: "line",
+                width: defaultChartWidth,
+                height: defaultChartHeight,
+                animations: {
+                    enabled: false,
+                },
+            },
+            series: [
+                    {
+                    name: "b",
+                    data: [
+                        {
+                            x: 2,
+                            y: 100,
+                        }, 
+                        {
+                            x: 3,
+                            y: 200, 
+                        },
+                        {   
+                            x: 4,
+                            y: 300,
+                        },
+                    ],
+                },
+            ],
+        });
+    });
+
     /*fio:
     it("throws when configuration is invalid", () => {
         expect (() => formatChartDef({} as IChartDef)).toThrow();
