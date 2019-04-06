@@ -11,7 +11,7 @@ module.exports = {
 
     target: "node",
     externals: [ nodeExternals() ], // Ignore all modules in node_modules folder.
-    mode: "development", //todo: "production",
+    mode: "development", //TODO: Possibly need separate prod and dev templates.
     devtool: "source-map",
 
     resolve: {
