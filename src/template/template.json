@@ -1,4 +1,4 @@
 {
     "waitSelector": "svg",
-    "noExpand": "lib/**/*"
+    "noExpand": "**/*"
 }
