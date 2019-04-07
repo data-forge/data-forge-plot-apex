@@ -1,4 +1,4 @@
-import { IChartDef, ISingleYAxisMap, ISingleAxisMap, IAxisConfig, IExpandedAxisConfig, IExpandedYAxisConfig, ChartType, IExpandedAxisMap } from "@data-forge-plot/chart-def";
+import { IChartDef, ISingleYAxisMap, ISingleAxisMap, IAxisConfig, IYAxisConfig, ChartType, IAxisMap } from "@data-forge-plot/chart-def";
 import * as moment from "moment"; //fio: ???
 import * as numeral from "numeral"; //fio: ???
 import { ApexOptions } from "apexcharts";
@@ -14,7 +14,7 @@ function extractSingleSeries(columnName: string, values: any[], indexValues: any
 //
 // Extract series from the chart definition's data.
 //
-function extractSeries(data: ISerializedDataFrame, axisMap: IExpandedAxisMap): ApexAxisChartSeries {
+function extractSeries(data: ISerializedDataFrame, axisMap: IAxisMap): ApexAxisChartSeries {
     const columnNames = axisMap.y.map(axis => axis.series);
     return columnNames.map(columnName => ({ 
         name: columnName, 
