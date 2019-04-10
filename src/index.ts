@@ -57,7 +57,7 @@ class ApexChart implements IChart {
 // Mount the chart on the DOM element.
 //
 export async function mountChart(chartDef: IChartDef, domElement: HTMLElement): Promise<IChart> {
-    const apexChartDef = formatChartDef(chartDef); //TODO: This can be properly typed to a apex chart configuration!
+    const apexChartDef = formatChartDef(chartDef);
     const apexChart = new ApexCharts(domElement, apexChartDef);
     await apexChart.render();
     return new ApexChart(apexChart);

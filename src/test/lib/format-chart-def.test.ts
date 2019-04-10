@@ -4,12 +4,6 @@ import { formatChartDef } from "../../lib/format-chart-def";
 import { ISerializedDataFrame } from "@data-forge/serialization";
 import * as Sugar from "sugar";
 
-//
-//todo: 
-// index is different length to values.
-// handle gappy data, undefined
-//
-
 export interface ITestChartDef {
     data: ISerializedDataFrame;
     x: string;
@@ -20,8 +14,8 @@ export interface ITestChartDef {
 
 describe("format chart def", () => {
 
-    const defaultChartWidth = 1200;
-    const defaultChartHeight = 600;
+    const defaultChartWidth = "100%";
+    const defaultChartHeight = "100%";
 
     it("can set chart type", () => {
 

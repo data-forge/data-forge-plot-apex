@@ -36,8 +36,8 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     return {
         chart: {
             type: inputChartDef.plotConfig.chartType,
-            width: valueOrDefault<number>(inputChartDef.plotConfig.width, 1200),
-            height: valueOrDefault<number>(inputChartDef.plotConfig.height, 600),
+            width: valueOrDefault<number|string>(inputChartDef.plotConfig.width, "100%"),
+            height: valueOrDefault<number|string>(inputChartDef.plotConfig.height, "100%"),
             animations: {
                 enabled: false,
             },
