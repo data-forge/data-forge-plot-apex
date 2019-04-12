@@ -680,7 +680,6 @@ describe("format chart def", () => {
         });
     });
 
-
     /*fio:
 
     it("can configure legend", ()  => {

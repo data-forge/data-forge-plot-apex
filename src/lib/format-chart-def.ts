@@ -22,8 +22,8 @@ function buildApexSeries(columnName: string, values: any[], indexValues: any[]) 
 //
 // Extract series from the chart definition's data.
 //
-function extractSeries(data: ISerializedDataFrame, axis: ISingleYAxisMap[], xAxis?: ISingleAxisMap): ApexAxisChartSeries {
-    return axis.map(axis => { 
+function extractSeries(data: ISerializedDataFrame, axises: ISingleYAxisMap[], xAxis?: ISingleAxisMap): ApexAxisChartSeries {
+    return axises.map(axis => {
         const columnName = axis.series;
         const xAxisColumnName = axis.x && axis.x.series || xAxis && xAxis.series;
         const xAxisValues = xAxisColumnName ? pluckValues(xAxisColumnName, data.values) : data.index.values;
@@ -37,8 +37,8 @@ function extractSeries(data: ISerializedDataFrame, axis: ISingleYAxisMap[], xAxi
 //
 // Get the configuration Y axis for apex.
 //
-function extractYAxisConfiguration(axis: ISingleYAxisMap[], opposite: boolean): ApexYAxis[] {
-    return axis.map(axis => ({ opposite }));
+function extractYAxisConfiguration(axises: ISingleYAxisMap[], opposite: boolean): ApexYAxis[] {
+    return axises.map(axis => ({ opposite }));
 }
 
 //
