@@ -5,21 +5,40 @@ import { ApexOptions } from "apexcharts";
 import { ISerializedDataFrame } from "@data-forge/serialization";
 
 //
-// Extract a single named series from chart data.
+// Pluck a single named series from chart data.
 //
-function extractSingleSeries(columnName: string, values: any[], indexValues: any[]) {
-    return values.map((row, index) => ({ x: indexValues[index], y: row[columnName] }));
+function pluckValues(columnName: string, values: any[]) {
+    return values.map(row => row[columnName]);
+}
+
+//
+// Build a series for Apex cahrts.
+//
+function buildApexSeries(columnName: string, values: any[], indexValues: any[]) {
+    return pluckValues(columnName, values)
+        .map((yValue, index) => ({ x: indexValues[index], y: yValue }));
 }
 
 //
 // Extract series from the chart definition's data.
 //
-function extractSeries(data: ISerializedDataFrame, axisMap: IAxisMap): ApexAxisChartSeries {
-    const columnNames = axisMap.y.map(axis => axis.series);
-    return columnNames.map(columnName => ({ 
-        name: columnName, 
-        data: extractSingleSeries(columnName, data.values, data.index.values),
-    }));
+function extractSeries(data: ISerializedDataFrame, axis: ISingleYAxisMap[], xAxis?: ISingleAxisMap): ApexAxisChartSeries {
+    return axis.map(axis => { 
+        const columnName = axis.series;
+        const xAxisColumnName = axis.x && axis.x.series || xAxis && xAxis.series;
+        const xAxisValues = xAxisColumnName ? pluckValues(xAxisColumnName, data.values) : data.index.values;
+        return {
+            name: columnName, 
+            data: buildApexSeries(columnName, data.values, xAxisValues),
+        };
+    });
+}
+
+//
+// Get the configuration Y axis for apex.
+//
+function extractYAxisConfiguration(axis: ISingleYAxisMap[], opposite: boolean): ApexYAxis[] {
+    return axis.map(axis => ({ opposite }));
 }
 
 //
@@ -33,6 +52,12 @@ function valueOrDefault<T>(value: T | undefined, defaultValue: T): T {
  * Convert a data-forge-plot chart definition to an ApexCharts chart definition.
  */
 export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
+    const yAxisSeries = extractSeries(inputChartDef.data, inputChartDef.axisMap.y, inputChartDef.axisMap.x)
+        .concat(extractSeries(inputChartDef.data, inputChartDef.axisMap.y2, inputChartDef.axisMap.x));
+
+    const yAxisConfig = extractYAxisConfiguration(inputChartDef.axisMap.y, false)
+        .concat(extractYAxisConfiguration(inputChartDef.axisMap.y2, true));
+
     return {
         chart: {
             type: inputChartDef.plotConfig.chartType,
@@ -42,6 +67,7 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
                 enabled: false,
             },
         },
-        series: extractSeries(inputChartDef.data, inputChartDef.axisMap),
+        series: yAxisSeries,
+        yaxis: yAxisConfig,
     };
 }
