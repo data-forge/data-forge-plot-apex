@@ -1,5 +1,5 @@
 import "jest";
-import { IChartDef, AxisType, ChartType, ISingleYAxisMap, ILegendConfig } from "@data-forge-plot/chart-def";
+import { IChartDef, AxisType, ChartType, ILegendConfig, IYAxisSeriesConfig } from "@data-forge-plot/chart-def";
 import { formatChartDef } from "../../lib/format-chart-def";
 import { ISerializedDataFrame } from "@data-forge/serialization";
 import * as Sugar from "sugar";
@@ -7,8 +7,8 @@ import * as Sugar from "sugar";
 export interface ITestChartDef {
     data: ISerializedDataFrame;
     x: string;
-    y: string | string[] | ISingleYAxisMap | ISingleYAxisMap[];
-    y2?: string | string[] | ISingleYAxisMap | ISingleYAxisMap[];
+    y: string | string[] | IYAxisSeriesConfig | IYAxisSeriesConfig[];
+    y2?: string | string[] | IYAxisSeriesConfig | IYAxisSeriesConfig[];
     legend?: ILegendConfig;
 }
 

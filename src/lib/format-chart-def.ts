@@ -1,4 +1,4 @@
-import { IChartDef, ISingleYAxisMap, ISingleAxisMap, IAxisConfig, IYAxisConfig, ChartType, IAxisMap } from "@data-forge-plot/chart-def";
+import { IChartDef, IAxisConfig, IYAxisConfig, ChartType, IAxisMap, IAxisSeriesConfig, IYAxisSeriesConfig } from "@data-forge-plot/chart-def";
 import * as moment from "moment"; //fio: ???
 import * as numeral from "numeral"; //fio: ???
 import { ApexOptions } from "apexcharts";
@@ -22,7 +22,7 @@ function buildApexSeries(columnName: string, values: any[], indexValues: any[]) 
 //
 // Extract series from the chart definition's data.
 //
-function extractSeries(data: ISerializedDataFrame, axises: ISingleYAxisMap[], xAxis?: ISingleAxisMap): ApexAxisChartSeries {
+function extractSeries(data: ISerializedDataFrame, axises: IYAxisSeriesConfig[], xAxis?: IAxisSeriesConfig): ApexAxisChartSeries {
     return axises.map(axis => {
         const columnName = axis.series;
         const xAxisColumnName = axis.x && axis.x.series || xAxis && xAxis.series;
@@ -37,7 +37,7 @@ function extractSeries(data: ISerializedDataFrame, axises: ISingleYAxisMap[], xA
 //
 // Get the configuration Y axis for apex.
 //
-function extractYAxisConfiguration(axises: ISingleYAxisMap[], opposite: boolean): ApexYAxis[] {
+function extractYAxisConfiguration(axises: IYAxisSeriesConfig[], opposite: boolean): ApexYAxis[] {
     return axises.map(axis => ({ opposite }));
 }
 
