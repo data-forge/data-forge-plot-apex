@@ -1,4 +1,5 @@
 const path = require("path");
+const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
     entry: "./src/index.ts",
@@ -8,6 +9,8 @@ module.exports = {
         libraryTarget: "umd",
     },
 
+    target: "node",
+    externals: [ nodeExternals() ], // Ignore all modules in node_modules folder.
     mode: "development", //TODO: Possibly need separate prod and dev templates.
     devtool: "source-map",
 
