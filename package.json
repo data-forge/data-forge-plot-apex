@@ -1,6 +1,6 @@
 {
     "name": "@data-forge-plot/apex",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "description": "A plugin to Data-Forge Plot for plotting charts using ApexCharts.",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -52,7 +52,6 @@
         "tslint": "^5.12.1",
         "typescript": "3.1.1",
         "webpack": "^4.29.6",
-        "webpack-cli": "^3.3.0",
-        "webpack-node-externals": "^1.7.2"
+        "webpack-cli": "^3.3.0"
     }
 }

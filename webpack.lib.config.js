@@ -5,7 +5,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "index.js",
-        libraryTarget: "commonjs2",
+        libraryTarget: "umd",
     },
 
     mode: "development", //TODO: Possibly need separate prod and dev templates.
