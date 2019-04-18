@@ -1,6 +1,4 @@
 import { IChartDef, IAxisConfig, IYAxisConfig, ChartType, IAxisMap, IAxisSeriesConfig, IYAxisSeriesConfig } from "@data-forge-plot/chart-def";
-import * as moment from "moment"; //fio: ???
-import * as numeral from "numeral"; //fio: ???
 import { ApexOptions } from "apexcharts";
 import { ISerializedDataFrame } from "@data-forge/serialization";
 

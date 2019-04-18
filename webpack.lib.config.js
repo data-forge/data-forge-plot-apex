@@ -8,7 +8,6 @@ module.exports = {
         libraryTarget: "commonjs2",
     },
 
-    target: "node",
     mode: "development", //TODO: Possibly need separate prod and dev templates.
     devtool: "source-map",
 
