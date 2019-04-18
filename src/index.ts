@@ -1,7 +1,10 @@
 import { IChartDef } from "@data-forge-plot/chart-def";
 import { formatChartDef } from "./lib/format-chart-def";
 export { formatChartDef } from "./lib/format-chart-def";
-const ApexCharts = require("apexcharts");
+let ApexCharts = require("apexcharts");
+if (ApexCharts.default !== undefined) {
+    ApexCharts = ApexCharts.default; // Bit of a hack here. It seems to be the only to get this work as a template and as a module.
+}
 
 //
 // Interface to control and configure a mounted chart.
