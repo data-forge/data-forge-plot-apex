@@ -1,7 +1,7 @@
 import { IChartDef } from "@data-forge-plot/chart-def";
 import { formatChartDef } from "./lib/format-chart-def";
 export { formatChartDef } from "./lib/format-chart-def";
-import "apexcharts";
+const ApexCharts = require("apexcharts").default;
 
 //
 // Interface to control and configure a mounted chart.

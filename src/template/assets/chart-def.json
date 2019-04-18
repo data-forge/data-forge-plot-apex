@@ -27,25 +27,16 @@
         "width": 800,
         "height": 600,
         "x": {
-            "axisType": "default",
-            "label": {}
         },
         "y": {
-            "axisType": "default",
-            "label": {}
         },
         "y2": {
-            "axisType": "default",
-            "label": {}
         },
         "legend": {
             "show": true
         }
     },
     "axisMap": {
-        "x": {
-            "series": "__index__"
-        },
         "y": [
             {
                 "series": "A"
