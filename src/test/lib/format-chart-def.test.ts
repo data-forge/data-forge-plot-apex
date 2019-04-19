@@ -14,9 +14,6 @@ export interface ITestChartDef {
 
 describe("format chart def", () => {
 
-    const defaultChartWidth = "100%";
-    const defaultChartHeight = "100%";
-
     function makeChartDef(inputChartDef?: any): IChartDef {
         const chartDef: any = {
             plotConfig: {
@@ -51,13 +48,6 @@ describe("format chart def", () => {
 
         const apexChartDef = formatChartDef(makeChartDef());
         expect(apexChartDef.chart!.animations!.enabled).toBe(false);
-    });
-
-    it("width and height are defaulted if not supplied", () => {
-
-        const apexChartDef = formatChartDef(makeChartDef());
-        expect(apexChartDef.chart!.width).toBe(defaultChartWidth);
-        expect(apexChartDef.chart!.height).toBe(defaultChartHeight);
     });
 
     it("width and height are passed through if supplied", () => {
@@ -106,8 +96,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },
@@ -183,8 +171,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },
@@ -277,8 +263,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },
@@ -354,8 +338,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },
@@ -433,8 +415,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },
@@ -530,8 +510,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },
@@ -635,8 +613,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                width: defaultChartWidth,
-                height: defaultChartHeight,
                 animations: {
                     enabled: false,
                 },

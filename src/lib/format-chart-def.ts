@@ -39,13 +39,6 @@ function extractYAxisConfiguration(axises: IYAxisSeriesConfig[], opposite: boole
     return axises.map(axis => ({ opposite }));
 }
 
-//
-// Get the value or if undefined, provide the default.
-//
-function valueOrDefault<T>(value: T | undefined, defaultValue: T): T {
-    return value !== undefined && value || defaultValue;
-}
-
 /**
  * Convert a data-forge-plot chart definition to an ApexCharts chart definition.
  */
@@ -59,8 +52,8 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     return {
         chart: {
             type: inputChartDef.plotConfig.chartType,
-            width: valueOrDefault<number|string>(inputChartDef.plotConfig.width, "100%"),
-            height: valueOrDefault<number|string>(inputChartDef.plotConfig.height, "100%"),
+            width: inputChartDef.plotConfig.width,
+            height: inputChartDef.plotConfig.height,
             animations: {
                 enabled: false,
             },
