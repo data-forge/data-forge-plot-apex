@@ -56,11 +56,49 @@ class ApexChart implements IChart {
     }
 }
 
+/**
+ * Options to control how the chart is mounted.
+ */
+export interface IMountOptions {
+    /**
+     * Set to true to make the chart static.
+     * The chart will have interactive features and animations disabled.
+     */
+    makeStatic: boolean;
+}
+
 //
 // Mount the chart on the DOM element.
 //
-export async function mountChart(chartDef: IChartDef, domElement: HTMLElement): Promise<IChart> {
+export async function mountChart(chartDef: IChartDef, domElement: HTMLElement, chartOptions?: IMountOptions): Promise<IChart> {
     const apexChartDef = formatChartDef(chartDef);
+    if (chartOptions && chartOptions.makeStatic) {
+        if (!!apexChartDef.chart) {
+            apexChartDef.chart = {};
+        }
+
+        if (!apexChartDef.chart!.animations) {
+            apexChartDef.chart!.animations = {};
+        }
+
+        if (!apexChartDef.tooltip) {
+            apexChartDef.tooltip = {};
+        }
+
+        if (!apexChartDef.chart!.zoom) {
+            apexChartDef.chart!.zoom = {};
+        }
+
+        if (!apexChartDef.chart!.toolbar) {
+            apexChartDef.chart!.toolbar = {};
+        }
+
+        apexChartDef.chart!.animations!.enabled = false;
+        apexChartDef.tooltip!.enabled = false;
+        apexChartDef.chart!.zoom!.enabled = false;
+        apexChartDef.chart!.toolbar!.show = false;
+    }
+
     const apexChart = new ApexCharts(domElement, apexChartDef);
     await apexChart.render();
     return new ApexChart(apexChart);

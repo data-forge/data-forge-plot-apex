@@ -2,9 +2,11 @@ import { mountChart } from "./index";
 
 async function main(): Promise<void> {
 
+    //todo: disable animation and interactivity!!
+
     const response = await fetch("chart-def.json");
     const chartDef = await response.json();
-    await mountChart(chartDef, document.getElementById("chart")!);
+    await mountChart(chartDef, document.getElementById("chart")!, { makeStatic: true });
 }
 
 main()
