@@ -72,7 +72,7 @@ export interface IMountOptions {
 //
 export async function mountChart(chartDef: IChartDef, domElement: HTMLElement, chartOptions?: IMountOptions): Promise<IChart> {
     const apexChartDef = formatChartDef(chartDef);
-    if (!!apexChartDef.chart) {
+    if (!apexChartDef.chart) {
         apexChartDef.chart = {};
     }
 

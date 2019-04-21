@@ -44,12 +44,6 @@ describe("format chart def", () => {
         expect(apexChartDef.chart!.type).toBe("bar");
     });
 
-    it("animations are disabled", () => {
-
-        const apexChartDef = formatChartDef(makeChartDef());
-        expect(apexChartDef.chart!.animations!.enabled).toBe(false);
-    });
-
     it("width and height are passed through if supplied", () => {
         
         const width = 22;
@@ -96,9 +90,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                 {
@@ -171,9 +162,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                 {
@@ -263,9 +251,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                     {
@@ -338,9 +323,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                     {
@@ -415,9 +397,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                 {
@@ -510,9 +489,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                 {
@@ -613,9 +589,6 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
-                animations: {
-                    enabled: false,
-                },
             },
             series: [
                 {

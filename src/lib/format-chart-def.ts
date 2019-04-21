@@ -54,9 +54,6 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
             type: inputChartDef.plotConfig.chartType,
             width: inputChartDef.plotConfig.width,
             height: inputChartDef.plotConfig.height,
-            animations: {
-                enabled: false,
-            },
         },
         series: yAxisSeries,
         yaxis: yAxisConfig,
