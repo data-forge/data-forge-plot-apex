@@ -35,12 +35,14 @@ function extractSeries(data: ISerializedDataFrame, axises: IYAxisSeriesConfig[],
 //
 // Get the configuration Y axis for apex.
 //
-function extractYAxisConfiguration(axises: IYAxisSeriesConfig[], opposite: boolean): ApexYAxis[] {
+function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConfig: IYAxisConfig, opposite: boolean): ApexYAxis[] {
     let show: boolean = true;
-    return axises.map(axis => {
+    return seriesConfigs.map(axis => {
         const yAxisConfig = { 
             opposite, 
             show,
+            min: axisConfig.min,
+            max: axisConfig.max,
         };
         show = false;
         return yAxisConfig;
@@ -54,8 +56,8 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     const yAxisSeries = extractSeries(inputChartDef.data, inputChartDef.axisMap.y, inputChartDef.axisMap.x)
         .concat(extractSeries(inputChartDef.data, inputChartDef.axisMap.y2, inputChartDef.axisMap.x));
 
-    const yAxisConfig = extractYAxisConfiguration(inputChartDef.axisMap.y, false)
-        .concat(extractYAxisConfiguration(inputChartDef.axisMap.y2, true));
+    const yAxisConfig = extractYAxisConfiguration(inputChartDef.axisMap.y, inputChartDef.plotConfig.y || {}, false)
+        .concat(extractYAxisConfiguration(inputChartDef.axisMap.y2, inputChartDef.plotConfig.y2 || {}, true));
 
     return {
         chart: {

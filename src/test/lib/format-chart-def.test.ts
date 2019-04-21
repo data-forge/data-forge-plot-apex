@@ -20,6 +20,9 @@ describe("format chart def", () => {
                 chartType: inputChartDef && inputChartDef.chartType || "line",
                 width: inputChartDef && inputChartDef.width,
                 height: inputChartDef && inputChartDef.height,
+                x: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.x,
+                y: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y,
+                y2: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y2,
             },
             data: inputChartDef && inputChartDef.data || {
                 columnOrder: [],
@@ -640,6 +643,116 @@ describe("format chart def", () => {
         });
     });
 
+    it("can set min and max values for both y axises", ()  => {
+
+        const chartDef = {
+            data: {
+                columnOrder: ["a", "b"],
+                columnTypes: {
+                    a: "number",
+                    b: "number",
+                },
+                index: {
+                    type: "number",
+                    values: [2, 3, 4],
+                },
+                values: [
+                    {
+                        a: 10,
+                        b: 100,
+                    },
+                    {
+                        a: 20,
+                        b: 200,
+                    },
+                    {
+                        a: 30,
+                        b: 300,
+                    },
+                ],
+            },
+            plotConfig: {
+                y: {
+                    min: 15,
+                    max: 25,
+                },
+                y2: {
+                    min: 0,
+                    max: 400,
+                },
+            },
+            axisMap: {
+                y: [
+                    {
+                        series: "a",
+                    },
+                ],
+                y2: [
+                    {
+                        series: "b",
+                    },
+                ],
+            },
+        };
+
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        expect(apexChartDef).toEqual({
+            chart: {
+                type: "line",
+            },
+            series: [
+                {
+                    name: "a",
+                    data: [
+                        {
+                            x: 2,
+                            y: 10,
+                        }, 
+                        {
+                            x: 3,
+                            y: 20, 
+                        },
+                        {   
+                            x: 4,
+                            y: 30,
+                        },
+                    ],
+                },
+                {
+                    name: "b",
+                    data: [
+                        {
+                            x: 2,
+                            y: 100,
+                        }, 
+                        {
+                            x: 3,
+                            y: 200, 
+                        },
+                        {   
+                            x: 4,
+                            y: 300,
+                        },
+                    ],
+                },
+            ],
+            yaxis: [
+                {
+                    opposite: false,
+                    show: true,
+                    min: 15,
+                    max: 25,
+                },
+                {
+                    opposite: true,
+                    show: true,
+                    min: 0,
+                    max: 400,
+                },
+            ],
+        });
+    });
+
     /*fio:
 
     it("can configure legend", ()  => {
@@ -771,74 +884,6 @@ describe("format chart def", () => {
                 show: true,
             },
         });
-    });
-    
-    it("can set min and max values for Y axis", () => {
-
-        const chartDef = createMinimalChartDef({
-            data: {
-                columnOrder: ["a", "b", "c", "d", "e"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                    c: "number",
-                    d: "number",
-                    e: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [ 5, 6 ],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                        c: 1000,
-                        d: 10000,
-                        e: 100000,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                        c: 2000,
-                        d: 20000,
-                        e: 200000,
-                    },
-                ],
-            },
-            x: "__index__",
-            y: [
-                {
-                    series: "b",
-                    x: "a",
-                },
-                {
-                    series: "c",
-                    x: "d",
-                },
-            ],
-            y2: [
-                {
-                    series: "e",
-                    x: "a",
-                },
-            ],
-            legend: {
-                show: true,
-            },
-        });
-    
-        chartDef.plotConfig.y.min = 10;
-        chartDef.plotConfig.y.max = 100;
-
-        chartDef.plotConfig.y2.min = 2;
-        chartDef.plotConfig.y2.max = 3;
-
-        const c3ChartDef = formatChartDef(chartDef);
-        expect(c3ChartDef.axis.y.min).toEqual(10);
-        expect(c3ChartDef.axis.y.max).toEqual(100);
-        expect(c3ChartDef.axis.y2.min).toEqual(2);
-        expect(c3ChartDef.axis.y2.max).toEqual(3);
     });
     */
 });
