@@ -113,6 +113,7 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: false,
+                    show: true,
                 },
             ],
         });
@@ -202,9 +203,11 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: false,
+                    show: true,                    
                 },
                 {
                     opposite: false,
+                    show: false,
                 },
             ],
         });
@@ -274,6 +277,7 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: false,
+                    show: true,
                 },
             ],
         });
@@ -346,6 +350,7 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: false,
+                    show: true,
                 },
             ],
         });
@@ -437,9 +442,11 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: false,
+                    show: true,
                 },
                 {
                     opposite: true,
+                    show: true,
                 },
             ],
         });
@@ -529,9 +536,11 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: true,
+                    show: true,
                 },
                 {
                     opposite: true,
+                    show: false,
                 },
             ],
         });
@@ -621,9 +630,11 @@ describe("format chart def", () => {
             yaxis: [
                 {
                     opposite: false,
+                    show: true,
                 },
                 {
                     opposite: false,
+                    show: false,
                 },
             ],
         });

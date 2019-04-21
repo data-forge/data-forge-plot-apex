@@ -36,7 +36,15 @@ function extractSeries(data: ISerializedDataFrame, axises: IYAxisSeriesConfig[],
 // Get the configuration Y axis for apex.
 //
 function extractYAxisConfiguration(axises: IYAxisSeriesConfig[], opposite: boolean): ApexYAxis[] {
-    return axises.map(axis => ({ opposite }));
+    let show: boolean = true;
+    return axises.map(axis => {
+        const yAxisConfig = { 
+            opposite, 
+            show,
+        };
+        show = false;
+        return yAxisConfig;
+    });
 }
 
 /**
