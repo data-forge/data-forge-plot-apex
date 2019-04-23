@@ -6,6 +6,82 @@ import * as Sugar from "sugar";
 
 describe("format chart def", () => {
 
+    const oneColumnTestData = {
+        columnOrder: ["x"],
+        columns: {
+            x: "number",
+        },
+        index: {
+            type: "number",
+            values: [4, 5, 6],
+        },
+        values: [
+            {
+                x: 10,
+            },
+            {
+                x: 20,
+            },
+            {
+                x: 30,
+            },
+        ],
+    };
+
+    const twoColumnTestData = {
+        columnOrder: ["a", "b"],
+        columns: {
+            a: "number",
+            b: "number",
+        },
+        index: {
+            type: "number",
+            values: [2, 3, 4],
+        },
+        values: [
+            {
+                a: 10,
+                b: 100,
+            },
+            {
+                a: 20,
+                b: 200,
+            },
+            {
+                a: 30,
+                b: 300,
+            },
+        ],
+    };
+
+    const fourColumnTestData = {
+        columnOrder: ["a", "b", "c", "d"],
+        columns: {
+            a: "number",
+            b: "number",
+            c: "number",
+            d: "number",
+        },
+        index: {
+            type: "number",
+            values: [2, 3, 4],
+        },
+        values: [
+            {
+                a: 10,
+                b: 100,
+                c: 22,
+                d: 44,
+            },
+            {
+                a: 20,
+                b: 200,
+                c: 33,
+                d: 66,
+            },
+        ],
+    };
+
     function makeChartDef(inputChartDef?: any): IChartDef {
         const chartDef: any = {
             plotConfig: {
@@ -53,27 +129,7 @@ describe("format chart def", () => {
     it("can plot single series with default index", () => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["x"],
-                columns: {
-                    x: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [4, 5, 6],
-                },
-                values: [
-                    {
-                        x: 10,
-                    },
-                    {
-                        x: 20,
-                    },
-                    {
-                        x: 30,
-                    },
-                ],
-            },
+            data: oneColumnTestData,
             axisMap: {
                 y: [
                     {
@@ -84,74 +140,31 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
+        expect(apexChartDef.series).toEqual([
+            {
+                name: "x",
+                data: [
+                    {
+                        x: 4,
+                        y: 10,
+                    }, 
+                    {
+                        x: 5,
+                        y: 20, 
+                    },
+                    {
+                        x: 6,
+                        y: 30,
+                    },
+                ],
             },
-            stroke: {
-                width: 1,
-            },
-            series: [
-                {
-                    name: "x",
-                    data: [
-                        {
-                            x: 4,
-                            y: 10,
-                        }, 
-                        {
-                            x: 5,
-                            y: 20, 
-                        },
-                        {
-                            x: 6,
-                            y: 30,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: false,
-                    show: true,
-                },
-            ],
-            xaxis: {
-            },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        ]);
     });
 
     it("can plot multiple series with default index", () => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                    },
-                    {
-                        a: 30,
-                        b: 300,
-                    },
-                ],
-            },
+            data: twoColumnTestData,
             axisMap: {
                 y: [
                     {
@@ -165,95 +178,48 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
+        expect(apexChartDef.series).toEqual([
+            {
+                name: "a",
+                data: [
+                    {
+                        x: 2,
+                        y: 10,
+                    }, 
+                    {
+                        x: 3,
+                        y: 20, 
+                    },
+                    {
+                        x: 4,
+                        y: 30,
+                    },
+                ],
             },
-            stroke: {
-                width: 1,
+            {
+                name: "b",
+                data: [
+                    {
+                        x: 2,
+                        y: 100,
+                    }, 
+                    {
+                        x: 3,
+                        y: 200, 
+                    },
+                    {   
+                        x: 4,
+                        y: 300,
+                    },
+                ],
             },
-            series: [
-                {
-                    name: "a",
-                    data: [
-                        {
-                            x: 2,
-                            y: 10,
-                        }, 
-                        {
-                            x: 3,
-                            y: 20, 
-                        },
-                        {
-                            x: 4,
-                            y: 30,
-                        },
-                    ],
-                },
-                {
-                    name: "b",
-                    data: [
-                        {
-                            x: 2,
-                            y: 100,
-                        }, 
-                        {
-                            x: 3,
-                            y: 200, 
-                        },
-                        {   
-                            x: 4,
-                            y: 300,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: false,
-                    show: true,                    
-                },
-                {
-                    opposite: false,
-                    show: false,
-                },
-            ],
-            xaxis: {
-            },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        ]);
     });
     
     it("can pluck named series for y axis", () => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                    },
-                    {
-                        a: 30,
-                        b: 300,
-                    },
-                ],
-            },
+            data: twoColumnTestData,
             axisMap: {
                 y: [
                     {
@@ -264,74 +230,31 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
-            },
-            stroke: {
-                width: 1,
-            },
-            series: [
-                    {
-                    name: "b",
-                    data: [
-                        {
-                            x: 2,
-                            y: 100,
-                        }, 
-                        {
-                            x: 3,
-                            y: 200, 
-                        },
-                        {   
-                            x: 4,
-                            y: 300,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
+        expect(apexChartDef.series).toEqual([
                 {
-                    opposite: false,
-                    show: true,
-                },
-            ],
-            xaxis: {
+                name: "b",
+                data: [
+                    {
+                        x: 2,
+                        y: 100,
+                    }, 
+                    {
+                        x: 3,
+                        y: 200, 
+                    },
+                    {   
+                        x: 4,
+                        y: 300,
+                    },
+                ],
             },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        ]);
     });
 
     it("can pluck named series for x axis", ()  => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                    },
-                    {
-                        a: 30,
-                        b: 300,
-                    },
-                ],
-            },
+            data: twoColumnTestData,
             axisMap: {
                 x: {
                     series: "a",
@@ -345,74 +268,31 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
-            },
-            stroke: {
-                width: 1,
-            },
-            series: [
+        expect(apexChartDef.series).toEqual([
+            {
+                name: "b",
+                data: [
                     {
-                    name: "b",
-                    data: [
-                        {
-                            x: 10,
-                            y: 100,
-                        }, 
-                        {
-                            x: 20,
-                            y: 200, 
-                        },
-                        {   
-                            x: 30,
-                            y: 300,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: false,
-                    show: true,
-                },
-            ],
-            xaxis: {
+                        x: 10,
+                        y: 100,
+                    }, 
+                    {
+                        x: 20,
+                        y: 200, 
+                    },
+                    {   
+                        x: 30,
+                        y: 300,
+                    },
+                ],
             },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        ]);
     });
 
     it("can pluck named series for second y axis", ()  => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                    },
-                    {
-                        a: 30,
-                        b: 300,
-                    },
-                ],
-            },
+            data: twoColumnTestData,
             axisMap: {
                 y: [
                     {
@@ -428,95 +308,48 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
+        expect(apexChartDef.series).toEqual([
+            {
+                name: "a",
+                data: [
+                    {
+                        x: 2,
+                        y: 10,
+                    }, 
+                    {
+                        x: 3,
+                        y: 20, 
+                    },
+                    {   
+                        x: 4,
+                        y: 30,
+                    },
+                ],
             },
-            stroke: {
-                width: 1,
+            {
+                name: "b",
+                data: [
+                    {
+                        x: 2,
+                        y: 100,
+                    }, 
+                    {
+                        x: 3,
+                        y: 200, 
+                    },
+                    {   
+                        x: 4,
+                        y: 300,
+                    },
+                ],
             },
-            series: [
-                {
-                    name: "a",
-                    data: [
-                        {
-                            x: 2,
-                            y: 10,
-                        }, 
-                        {
-                            x: 3,
-                            y: 20, 
-                        },
-                        {   
-                            x: 4,
-                            y: 30,
-                        },
-                    ],
-                },
-                {
-                    name: "b",
-                    data: [
-                        {
-                            x: 2,
-                            y: 100,
-                        }, 
-                        {
-                            x: 3,
-                            y: 200, 
-                        },
-                        {   
-                            x: 4,
-                            y: 300,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: false,
-                    show: true,
-                },
-                {
-                    opposite: true,
-                    show: true,
-                },
-            ],
-            xaxis: {
-            },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        ]);
     });
 
     it("can pluck multiple named series for second y axis", ()  => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                    },
-                    {
-                        a: 30,
-                        b: 300,
-                    },
-                ],
-            },
+            data: twoColumnTestData,
             axisMap: {
                 y2: [
                     {
@@ -530,97 +363,48 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
+        expect(apexChartDef.series).toEqual([
+            {
+                name: "a",
+                data: [
+                    {
+                        x: 2,
+                        y: 10,
+                    }, 
+                    {
+                        x: 3,
+                        y: 20, 
+                    },
+                    {   
+                        x: 4,
+                        y: 30,
+                    },
+                ],
             },
-            stroke: { //TODO: Be good if I didn't have to copy this through every test.
-                width: 1,
+            {
+                name: "b",
+                data: [
+                    {
+                        x: 2,
+                        y: 100,
+                    }, 
+                    {
+                        x: 3,
+                        y: 200, 
+                    },
+                    {   
+                        x: 4,
+                        y: 300,
+                    },
+                ],
             },
-            series: [
-                {
-                    name: "a",
-                    data: [
-                        {
-                            x: 2,
-                            y: 10,
-                        }, 
-                        {
-                            x: 3,
-                            y: 20, 
-                        },
-                        {   
-                            x: 4,
-                            y: 30,
-                        },
-                    ],
-                },
-                {
-                    name: "b",
-                    data: [
-                        {
-                            x: 2,
-                            y: 100,
-                        }, 
-                        {
-                            x: 3,
-                            y: 200, 
-                        },
-                        {   
-                            x: 4,
-                            y: 300,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: true,
-                    show: true,
-                },
-                {
-                    opposite: true,
-                    show: false,
-                },
-            ],
-            xaxis: {
-            },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        ]);
     });
 
     it("can set x axis per y axis", ()  => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b", "c", "d"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                    c: "number",
-                    d: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                        c: 22,
-                        d: 44,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                        c: 33,
-                        d: 66,
-                    },
-                ],
-            },
+            data: fourColumnTestData,
             axisMap: {
                 y: [
                     {
@@ -640,87 +424,116 @@ describe("format chart def", () => {
         };
 
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
+        expect(apexChartDef.series).toEqual([
+            {
+                name: "a",
+                data: [
+                    {
+                        x: 22,
+                        y: 10,
+                    }, 
+                    {
+                        x: 33,
+                        y: 20, 
+                    },
+                ],
             },
-            stroke: {
-                width: 1,
+            {
+                name: "b",
+                data: [
+                    {
+                        x: 44,
+                        y: 100,
+                    }, 
+                    {
+                        x: 66,
+                        y: 200, 
+                    },
+                ],
             },
-            series: [
-                {
-                    name: "a",
-                    data: [
-                        {
-                            x: 22,
-                            y: 10,
-                        }, 
-                        {
-                            x: 33,
-                            y: 20, 
-                        },
-                    ],
-                },
-                {
-                    name: "b",
-                    data: [
-                        {
-                            x: 44,
-                            y: 100,
-                        }, 
-                        {
-                            x: 66,
-                            y: 200, 
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: false,
-                    show: true,
-                },
-                {
-                    opposite: false,
-                    show: false,
-                },
-            ],
-            xaxis: {
+        ]);
+    });
+
+    it("second y axis is on opposite side", ()  => {
+
+        const chartDef = {
+            data: oneColumnTestData,
+            axisMap: {
+                y: [
+                    {
+                        series: "a",
+                    },
+                ],
+                y2: [
+                    {
+                        series: "b",
+                    },
+                ],
             },
-            dataLabels: {
-                enabled: false, //fio
+        };
+
+        const yaxis = formatChartDef(makeChartDef(chartDef)).yaxis as ApexYAxis[];
+        expect(yaxis.length).toEqual(2);
+        expect(yaxis[0].opposite).toEqual(false);
+        expect(yaxis[1].opposite).toEqual(true);
+    });
+
+    it("subsequent y axis are not shown", ()  => {
+
+        const chartDef = {
+            data: fourColumnTestData,
+            axisMap: {
+                y: [
+                    {
+                        series: "a",
+                    },
+                    {
+                        series: "b",
+                    },
+                    {
+                        series: "c",
+                    },
+                ],
             },
-        });
+        };
+
+        const yaxis = formatChartDef(makeChartDef(chartDef)).yaxis as ApexYAxis[];
+        expect(yaxis.length).toEqual(3);
+        expect(yaxis[0].show).toEqual(true);
+        expect(yaxis[1].show).toEqual(false);
+        expect(yaxis[2].show).toEqual(false);
+    });
+
+    it("subsequent y2 axis are not shown", ()  => {
+
+        const chartDef = {
+            data: fourColumnTestData,
+            axisMap: {
+                y2: [
+                    {
+                        series: "a",
+                    },
+                    {
+                        series: "b",
+                    },
+                    {
+                        series: "c",
+                    },
+                ],
+            },
+        };
+
+        const yaxis = formatChartDef(makeChartDef(chartDef)).yaxis as ApexYAxis[];
+        expect(yaxis.length).toEqual(3);
+        expect(yaxis[0].show).toEqual(true);
+        expect(yaxis[1].show).toEqual(false);
+        expect(yaxis[2].show).toEqual(false);
     });
 
     it("can set min and max values for both y axises", ()  => {
 
         const chartDef = {
-            data: {
-                columnOrder: ["a", "b"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [2, 3, 4],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                    },
-                    {
-                        a: 30,
-                        b: 300,
-                    },
-                ],
-            },
+            data: oneColumnTestData,
             plotConfig: {
                 y: {
                     min: 15,
@@ -745,70 +558,12 @@ describe("format chart def", () => {
             },
         };
 
-        const apexChartDef = formatChartDef(makeChartDef(chartDef));
-        expect(apexChartDef).toEqual({
-            chart: {
-                type: "line",
-            },
-            stroke: {
-                width: 1, //fio:
-            },
-            series: [
-                {
-                    name: "a",
-                    data: [
-                        {
-                            x: 2,
-                            y: 10,
-                        }, 
-                        {
-                            x: 3,
-                            y: 20, 
-                        },
-                        {   
-                            x: 4,
-                            y: 30,
-                        },
-                    ],
-                },
-                {
-                    name: "b",
-                    data: [
-                        {
-                            x: 2,
-                            y: 100,
-                        }, 
-                        {
-                            x: 3,
-                            y: 200, 
-                        },
-                        {   
-                            x: 4,
-                            y: 300,
-                        },
-                    ],
-                },
-            ],
-            yaxis: [
-                {
-                    opposite: false,
-                    show: true,
-                    min: 15,
-                    max: 25,
-                },
-                {
-                    opposite: true,
-                    show: true,
-                    min: 0,
-                    max: 400,
-                },
-            ],
-            xaxis: {
-            },
-            dataLabels: {
-                enabled: false, //fio
-            },
-        });
+        const yaxis = formatChartDef(makeChartDef(chartDef)).yaxis as ApexYAxis[];
+        expect(yaxis.length).toEqual(2);
+        expect(yaxis[0].min).toEqual(15);
+        expect(yaxis[0].max).toEqual(25);
+        expect(yaxis[1].min).toEqual(0);
+        expect(yaxis[1].max).toEqual(400);
     });
 
     it("stroke width defaults to 1", () => {
