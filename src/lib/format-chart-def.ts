@@ -49,10 +49,27 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
     });
 }
 
+//
+// Determine the Apex type to use for the x axis.
+//
+function determineXAxisType(inputChartDef: IChartDef): "datetime" | undefined {
+    if (inputChartDef.axisMap.x && inputChartDef.axisMap.x.series) {
+        if (inputChartDef.data.columns[inputChartDef.axisMap.x.series] === "date") {
+            return "datetime";
+        }
+    }
+    else if (inputChartDef.data.index.type === "date") {
+        return "datetime";
+    }
+    
+    return undefined;
+}
+
 /**
  * Convert a data-forge-plot chart definition to an ApexCharts chart definition.
  */
 export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
+
     const yAxisSeries = extractSeries(inputChartDef.data, inputChartDef.axisMap.y, inputChartDef.axisMap.x)
         .concat(extractSeries(inputChartDef.data, inputChartDef.axisMap.y2, inputChartDef.axisMap.x));
 
@@ -70,5 +87,8 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         },
         series: yAxisSeries,
         yaxis: yAxisConfig,
+        xaxis: {
+            type: determineXAxisType(inputChartDef),
+        },
     };
 }

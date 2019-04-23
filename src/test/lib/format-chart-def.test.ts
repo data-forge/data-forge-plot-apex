@@ -4,14 +4,6 @@ import { formatChartDef } from "../../lib/format-chart-def";
 import { ISerializedDataFrame } from "@data-forge/serialization";
 import * as Sugar from "sugar";
 
-export interface ITestChartDef {
-    data: ISerializedDataFrame;
-    x: string;
-    y: string | string[] | IYAxisSeriesConfig | IYAxisSeriesConfig[];
-    y2?: string | string[] | IYAxisSeriesConfig | IYAxisSeriesConfig[];
-    legend?: ILegendConfig;
-}
-
 describe("format chart def", () => {
 
     function makeChartDef(inputChartDef?: any): IChartDef {
@@ -26,6 +18,8 @@ describe("format chart def", () => {
             },
             data: inputChartDef && inputChartDef.data || {
                 columnOrder: [],
+                columns: [],
+                index: {},
             },
             axisMap: {
                 x: inputChartDef && inputChartDef.axisMap && inputChartDef.axisMap.x,
@@ -61,7 +55,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["x"],
-                columnTypes: {
+                columns: {
                     x: "number",
                 },
                 index: {
@@ -122,6 +116,8 @@ describe("format chart def", () => {
                     show: true,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -130,7 +126,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                 },
@@ -219,6 +215,8 @@ describe("format chart def", () => {
                     show: false,
                 },
             ],
+            xaxis: {
+            },
         });
     });
     
@@ -227,7 +225,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                 },
@@ -292,6 +290,8 @@ describe("format chart def", () => {
                     show: true,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -300,7 +300,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                 },
@@ -368,6 +368,8 @@ describe("format chart def", () => {
                     show: true,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -376,7 +378,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                 },
@@ -467,6 +469,8 @@ describe("format chart def", () => {
                     show: true,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -475,7 +479,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                 },
@@ -564,6 +568,8 @@ describe("format chart def", () => {
                     show: false,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -572,7 +578,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b", "c", "d"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                     c: "number",
@@ -661,6 +667,8 @@ describe("format chart def", () => {
                     show: false,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -669,7 +677,7 @@ describe("format chart def", () => {
         const chartDef = {
             data: {
                 columnOrder: ["a", "b"],
-                columnTypes: {
+                columns: {
                     a: "number",
                     b: "number",
                 },
@@ -774,6 +782,8 @@ describe("format chart def", () => {
                     max: 400,
                 },
             ],
+            xaxis: {
+            },
         });
     });
 
@@ -781,6 +791,57 @@ describe("format chart def", () => {
         
         const apexChartDef = formatChartDef(makeChartDef());
         expect(apexChartDef.stroke!.width).toBe(1);
+    });
+
+    it("using a datetime index for the x axis sets the apex datatype", () => {
+
+        const data: ISerializedDataFrame = {
+            columnOrder: [ "A" ],
+            columns: { 
+                A: "number",
+            },
+            index: {
+                type: "date",
+                values: [
+                    new Date("2018/01/01"), 
+                    new Date("2018/01/02"),
+                ],
+            },
+            values: [
+                {
+                    A: 10,
+                },
+                {
+                    A: 20,
+                },
+            ],
+        };
+        const apexChartDef = formatChartDef(makeChartDef({ data }));
+        expect(apexChartDef.xaxis!.type).toBe("datetime");
+    });
+
+    it("using a datetime column for the x axis sets the apex datatype", () => {
+
+        const data: ISerializedDataFrame = {
+            columnOrder: [ "A" ],
+            columns: { 
+                A: "date",
+            },
+            index: {
+                type: "number",
+                values: [1, 2],
+            },
+            values: [
+                {
+                    A: new Date("2018/01/01"),
+                },
+                {
+                    A: new Date("2018/01/02"),
+                },
+            ],
+        };
+        const apexChartDef = formatChartDef(makeChartDef({ data, axisMap: { x: { series: "A" }} }));
+        expect(apexChartDef.xaxis!.type).toBe("datetime");
     });
 
     /*fio:
