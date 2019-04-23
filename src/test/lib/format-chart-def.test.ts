@@ -94,6 +94,9 @@ describe("format chart def", () => {
             chart: {
                 type: "line",
             },
+            stroke: {
+                width: 1,
+            },
             series: [
                 {
                     name: "x",
@@ -166,6 +169,9 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
+            },
+            stroke: {
+                width: 1,
             },
             series: [
                 {
@@ -258,6 +264,9 @@ describe("format chart def", () => {
             chart: {
                 type: "line",
             },
+            stroke: {
+                width: 1,
+            },
             series: [
                     {
                     name: "b",
@@ -330,6 +339,9 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
+            },
+            stroke: {
+                width: 1,
             },
             series: [
                     {
@@ -405,6 +417,9 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
+            },
+            stroke: {
+                width: 1,
             },
             series: [
                 {
@@ -499,6 +514,9 @@ describe("format chart def", () => {
         expect(apexChartDef).toEqual({
             chart: {
                 type: "line",
+            },
+            stroke: { //TODO: Be good if I didn't have to copy this through every test.
+                width: 1,
             },
             series: [
                 {
@@ -602,6 +620,9 @@ describe("format chart def", () => {
             chart: {
                 type: "line",
             },
+            stroke: {
+                width: 1,
+            },
             series: [
                 {
                     name: "a",
@@ -700,6 +721,9 @@ describe("format chart def", () => {
             chart: {
                 type: "line",
             },
+            stroke: {
+                width: 1,
+            },
             series: [
                 {
                     name: "a",
@@ -751,6 +775,12 @@ describe("format chart def", () => {
                 },
             ],
         });
+    });
+
+    it("stroke width defaults to 1", () => {
+        
+        const apexChartDef = formatChartDef(makeChartDef());
+        expect(apexChartDef.stroke!.width).toBe(1);
     });
 
     /*fio:

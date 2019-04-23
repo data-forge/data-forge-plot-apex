@@ -65,6 +65,9 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
             width: inputChartDef.plotConfig.width,
             height: inputChartDef.plotConfig.height,
         },
+        stroke: {
+            width: 1,
+        },
         series: yAxisSeries,
         yaxis: yAxisConfig,
     };
