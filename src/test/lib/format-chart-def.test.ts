@@ -118,6 +118,9 @@ describe("format chart def", () => {
             ],
             xaxis: {
             },
+            dataLabels: {
+                enabled: false, //fio
+            },
         });
     });
 
@@ -217,6 +220,9 @@ describe("format chart def", () => {
             ],
             xaxis: {
             },
+            dataLabels: {
+                enabled: false, //fio
+            },
         });
     });
     
@@ -291,6 +297,9 @@ describe("format chart def", () => {
                 },
             ],
             xaxis: {
+            },
+            dataLabels: {
+                enabled: false, //fio
             },
         });
     });
@@ -369,6 +378,9 @@ describe("format chart def", () => {
                 },
             ],
             xaxis: {
+            },
+            dataLabels: {
+                enabled: false, //fio
             },
         });
     });
@@ -471,6 +483,9 @@ describe("format chart def", () => {
             ],
             xaxis: {
             },
+            dataLabels: {
+                enabled: false, //fio
+            },
         });
     });
 
@@ -569,6 +584,9 @@ describe("format chart def", () => {
                 },
             ],
             xaxis: {
+            },
+            dataLabels: {
+                enabled: false, //fio
             },
         });
     });
@@ -669,6 +687,9 @@ describe("format chart def", () => {
             ],
             xaxis: {
             },
+            dataLabels: {
+                enabled: false, //fio
+            },
         });
     });
 
@@ -730,7 +751,7 @@ describe("format chart def", () => {
                 type: "line",
             },
             stroke: {
-                width: 1,
+                width: 1, //fio:
             },
             series: [
                 {
@@ -783,6 +804,9 @@ describe("format chart def", () => {
                 },
             ],
             xaxis: {
+            },
+            dataLabels: {
+                enabled: false, //fio
             },
         });
     });
@@ -842,6 +866,11 @@ describe("format chart def", () => {
         };
         const apexChartDef = formatChartDef(makeChartDef({ data, axisMap: { x: { series: "A" }} }));
         expect(apexChartDef.xaxis!.type).toBe("datetime");
+    });
+
+    it("data labels are disabled", () => {
+        const apexChartDef = formatChartDef(makeChartDef());
+        expect(apexChartDef.dataLabels!.enabled).toBe(false);
     });
 
     /*fio:

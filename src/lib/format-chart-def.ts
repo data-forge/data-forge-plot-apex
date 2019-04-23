@@ -90,5 +90,8 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         xaxis: {
             type: determineXAxisType(inputChartDef),
         },
+        dataLabels: {
+            enabled: false,
+        },
     };
 }
