@@ -91,6 +91,7 @@ describe("format chart def", () => {
                 x: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.x,
                 y: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y,
                 y2: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y2,
+                legend: inputChartDef && inputChartDef.legend,
             },
             data: inputChartDef && inputChartDef.data || {
                 columnOrder: [],
@@ -626,6 +627,21 @@ describe("format chart def", () => {
     it("data labels are disabled", () => {
         const apexChartDef = formatChartDef(makeChartDef());
         expect(apexChartDef.dataLabels!.enabled).toBe(false);
+    });
+
+    it("legend defaults to true", () => {
+        expect(formatChartDef(makeChartDef()).legend!.show).toBe(true);
+        expect(formatChartDef(makeChartDef({ legend: {  } })).legend!.show).toBe(true);
+    });
+
+    it("can show legend", () => {
+        const apexChartDef = formatChartDef(makeChartDef({ legend: { show: true }}));
+        expect(apexChartDef.legend!.show).toBe(true);
+    });
+
+    it("can hide legend", () => {
+        const apexChartDef = formatChartDef(makeChartDef({ legend: { show: false }}));
+        expect(apexChartDef.legend!.show).toBe(false);
     });
 
     /*fio:

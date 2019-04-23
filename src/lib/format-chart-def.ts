@@ -93,5 +93,10 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         dataLabels: {
             enabled: false,
         },
+        legend: {
+            show: inputChartDef.plotConfig.legend && inputChartDef.plotConfig.legend.show !== undefined
+                ?  inputChartDef.plotConfig.legend.show
+                : true,
+        },
     };
 }
