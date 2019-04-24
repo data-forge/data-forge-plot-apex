@@ -64,12 +64,12 @@ export interface IMountOptions {
      * Set to true to make the chart static.
      * The chart will have interactive features and animations disabled.
      */
-    makeStatic: boolean;
+    makeStatic?: boolean;
 
     /**
      * Debug log the chart definition after formatting.
      */
-    showChartDef: boolean;
+    showChartDef?: boolean;
 }
 
 //
