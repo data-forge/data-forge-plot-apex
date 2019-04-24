@@ -1,6 +1,6 @@
 {
     "name": "@data-forge-plot/apex",
-    "version": "0.0.27",
+    "version": "0.0.28",
     "description": "A plugin to Data-Forge Plot for plotting charts using ApexCharts.",
     "main": "build/index.js",
     "types": "build/index.d.ts",

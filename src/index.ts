@@ -65,6 +65,11 @@ export interface IMountOptions {
      * The chart will have interactive features and animations disabled.
      */
     makeStatic: boolean;
+
+    /**
+     * Debug log the chart definition after formatting.
+     */
+    showChartDef: boolean;
 }
 
 //
@@ -103,6 +108,11 @@ export async function mountChart(chartDef: IChartDef, domElement: HTMLElement, c
         apexChartDef.tooltip!.enabled = true;
         apexChartDef.chart!.zoom!.enabled = true;
         apexChartDef.chart!.toolbar!.show = true;
+    }
+
+    if (chartOptions && chartOptions.showChartDef) {
+        console.log("Formatted chart definition:");
+        console.log(JSON.stringify(apexChartDef, null, 4));
     }
 
     const apexChart = new ApexCharts(domElement, apexChartDef);
