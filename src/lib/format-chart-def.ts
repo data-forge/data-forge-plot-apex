@@ -70,6 +70,14 @@ function determineXAxisType(inputChartDef: IChartDef): "datetime" | undefined {
  */
 export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
 
+    //todo: use the serialization library to deserialize the chart def here!
+
+    const xaxisType = determineXAxisType(inputChartDef);
+    const xaxis: ApexXAxis = {};
+    if (xaxisType) {
+        xaxis.type = xaxisType;
+    }
+
     const yAxisSeries = extractSeries(inputChartDef.data, inputChartDef.axisMap.y, inputChartDef.axisMap.x)
         .concat(extractSeries(inputChartDef.data, inputChartDef.axisMap.y2, inputChartDef.axisMap.x));
 
@@ -87,9 +95,7 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         },
         series: yAxisSeries,
         yaxis: yAxisConfig,
-        xaxis: {
-            type: determineXAxisType(inputChartDef),
-        },
+        xaxis,
         dataLabels: {
             enabled: false,
         },
