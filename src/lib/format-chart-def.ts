@@ -52,17 +52,17 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
 //
 // Determine the Apex type to use for the x axis.
 //
-function determineXAxisType(inputChartDef: IChartDef): "datetime" | undefined {
-    if (inputChartDef.axisMap.x && inputChartDef.axisMap.x.series) {
-        if (inputChartDef.data.columns[inputChartDef.axisMap.x.series] === "date") {
-            return "datetime";
-        }
-    }
-    else if (inputChartDef.data.index.type === "date") {
+function determineXAxisType(inputChartDef: IChartDef): "datetime" | "numeric" | "categories" {
+    const dataType = inputChartDef.axisMap.x && inputChartDef.axisMap.x.series && inputChartDef.data.columns[inputChartDef.axisMap.x.series] || inputChartDef.data.index.type;
+    if (dataType === "date") {
         return "datetime";
     }
-    
-    return undefined;
+    else if (dataType === "number") {
+        return "numeric";
+    }
+    else {
+        return "categories";
+    }
 }
 
 /**

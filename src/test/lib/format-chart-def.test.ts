@@ -573,7 +573,7 @@ describe("format chart def", () => {
         expect(apexChartDef.stroke!.width).toBe(1);
     });
 
-    it("using a datetime index for the x axis sets the apex datatype", () => {
+    it("using a datetime index for the x axis sets the apex datatype to datetime", () => {
 
         const data: ISerializedDataFrame = {
             columnOrder: [ "A" ],
@@ -600,7 +600,61 @@ describe("format chart def", () => {
         expect(apexChartDef.xaxis!.type).toBe("datetime");
     });
 
-    it("using a datetime column for the x axis sets the apex datatype", () => {
+    it("using a numeric index for the x axis sets the apex datatype to numeric", () => {
+
+        const data: ISerializedDataFrame = {
+            columnOrder: [ "A" ],
+            columns: { 
+                A: "number",
+            },
+            index: {
+                type: "number",
+                values: [
+                    100, 
+                    200,
+                ],
+            },
+            values: [
+                {
+                    A: 10,
+                },
+                {
+                    A: 20,
+                },
+            ],
+        };
+        const apexChartDef = formatChartDef(makeChartDef({ data }));
+        expect(apexChartDef.xaxis!.type).toBe("numeric");
+    });
+
+    it("using a strings index for the x axis sets the apex datatype to category", () => {
+
+        const data: ISerializedDataFrame = {
+            columnOrder: [ "A" ],
+            columns: { 
+                A: "number",
+            },
+            index: {
+                type: "string",
+                values: [
+                    "a",
+                    "b",
+                ],
+            },
+            values: [
+                {
+                    A: 10,
+                },
+                {
+                    A: 20,
+                },
+            ],
+        };
+        const apexChartDef = formatChartDef(makeChartDef({ data }));
+        expect(apexChartDef.xaxis!.type).toBe("categories");
+    });
+
+    it("using a datetime column for the x axis sets the apex datatype to datetie", () => {
 
         const data: ISerializedDataFrame = {
             columnOrder: [ "A" ],
@@ -609,7 +663,7 @@ describe("format chart def", () => {
             },
             index: {
                 type: "number",
-                values: [1, 2],
+                values: [ 1, 2 ],
             },
             values: [
                 {
@@ -622,6 +676,54 @@ describe("format chart def", () => {
         };
         const apexChartDef = formatChartDef(makeChartDef({ data, axisMap: { x: { series: "A" }} }));
         expect(apexChartDef.xaxis!.type).toBe("datetime");
+    });
+
+    it("using a numeric column for the x axis sets the apex datatype to numeric", () => {
+
+        const data: ISerializedDataFrame = {
+            columnOrder: [ "A" ],
+            columns: { 
+                A: "number",
+            },
+            index: {
+                type: "number",
+                values: [ 1, 2 ],
+            },
+            values: [
+                {
+                    A: 10,
+                },
+                {
+                    A: 20,
+                },
+            ],
+        };
+        const apexChartDef = formatChartDef(makeChartDef({ data, axisMap: { x: { series: "A" }} }));
+        expect(apexChartDef.xaxis!.type).toBe("numeric");
+    });
+
+    it("using a strings column for the x axis sets the apex datatype to category", () => {
+
+        const data: ISerializedDataFrame = {
+            columnOrder: [ "A" ],
+            columns: { 
+                A: "string",
+            },
+            index: {
+                type: "number",
+                values: [ 1, 2 ],
+            },
+            values: [
+                {
+                    A: "a",
+                },
+                {
+                    A: "b",
+                },
+            ],
+        };
+        const apexChartDef = formatChartDef(makeChartDef({ data, axisMap: { x: { series: "A" }} }));
+        expect(apexChartDef.xaxis!.type).toBe("categories");
     });
 
     it("data labels are disabled", () => {
