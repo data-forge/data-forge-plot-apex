@@ -1,6 +1,6 @@
 {
     "name": "@data-forge-plot/apex",
-    "version": "0.0.34",
+    "version": "0.0.35",
     "description": "A plugin to Data-Forge Plot for plotting charts using ApexCharts.",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -34,13 +34,16 @@
     },
     "homepage": "https://github.com/data-forge/data-forge-plot-apex#readme",
     "dependencies": {
-        "@data-forge-plot/chart-def": "^1.1.1",
+        "@data-forge-plot/chart-def": "^1.1.2",
         "@data-forge/serialization": "^1.0.0",
-        "apexcharts": "^3.6.9"
+        "apexcharts": "^3.6.9",
+        "dayjs": "^1.8.13",
+        "numeral": "^2.0.6"
     },
     "devDependencies": {
         "@types/jest": "^24.0.6",
         "@types/node": "10.11.4",
+        "@types/numeral": "0.0.25",
         "@types/sugar": "^2.0.2",
         "copy-webpack-plugin": "^5.0.2",
         "jest": "^24.1.0",
