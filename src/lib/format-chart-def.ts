@@ -45,8 +45,7 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
             show,
             min: axisConfig.min,
             max: axisConfig.max,
-            labels: {
-            },
+            labels: {},
         };
 
         const formatString = axisConfig.format;
@@ -61,7 +60,7 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
             }
         }
         else {
-            if (dataType === "numeric") {
+            if (dataType === "number") {
                 yAxisConfig.labels!.formatter = value => numeral(value).format("0.00"); // Default to formatting with two decimal places for numeric data with no format string.
             }
         }
