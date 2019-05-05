@@ -50,9 +50,9 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
         };
 
         const formatString = axisConfig.format;
+        const columnName = seriesConfig.series;
+        const dataType = data.columns[columnName];
         if (formatString) {
-            const columnName = seriesConfig.series;
-            const dataType = data.columns[columnName];
             if (dataType === "date") {
                 yAxisConfig.labels!.formatter = value => dayjs(value).format(formatString);
             }
@@ -60,7 +60,12 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
                 yAxisConfig.labels!.formatter = value => numeral(value).format(formatString);
             }
         }
-
+        else {
+            if (dataType === "numeric") {
+                yAxisConfig.labels!.formatter = value => numeral(value).format("0.00"); // Default to formatting with two decimal places for numeric data with no format string.
+            }
+        }
+    
         show = false;
         return yAxisConfig;
     });
@@ -70,7 +75,10 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
 // Determine the Apex type to use for the x axis.
 //
 function determineXAxisType(inputChartDef: IChartDef): "datetime" | "numeric" | "categories" {
-    const dataType = inputChartDef.axisMap.x && inputChartDef.axisMap.x.series && inputChartDef.data.columns[inputChartDef.axisMap.x.series] || inputChartDef.data.index.type;
+    const dataType = inputChartDef.axisMap.x 
+        && inputChartDef.axisMap.x.series 
+        && inputChartDef.data.columns[inputChartDef.axisMap.x.series] 
+        || inputChartDef.data.index.type;
     if (dataType === "date") {
         return "datetime";
     }
@@ -92,9 +100,7 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     const xaxisType = determineXAxisType(inputChartDef);
     const xaxis: ApexXAxis = {
         type: xaxisType,
-        labels: {
-
-        },
+        labels: {},
     };
 
     const xAxisFormatString = inputChartDef.plotConfig.x && inputChartDef.plotConfig.x.format;
