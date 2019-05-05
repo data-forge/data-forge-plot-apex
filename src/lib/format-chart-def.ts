@@ -106,6 +106,11 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
             xaxis.labels!.formatter = value => numeral(value).format(xAxisFormatString);
         }
     }
+    else {
+        if (xaxisType === "numeric") {
+            xaxis.labels!.formatter = value => numeral(value).format("0.00"); // Default to formatting with two decimal places for numeric data with no format string.
+        }
+    }
 
     const yAxisSeries = extractSeries(inputChartDef.data, inputChartDef.axisMap.y, inputChartDef.axisMap.x)
         .concat(extractSeries(inputChartDef.data, inputChartDef.axisMap.y2, inputChartDef.axisMap.x));
