@@ -73,7 +73,7 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
 //
 // Determine the Apex type to use for the x axis.
 //
-function determineXAxisType(inputChartDef: IChartDef): "datetime" | "numeric" | "categories" {
+function determineXAxisType(inputChartDef: IChartDef): string {
     const dataType = inputChartDef.axisMap.x 
         && inputChartDef.axisMap.x.series 
         && inputChartDef.data.columns[inputChartDef.axisMap.x.series] 
@@ -85,7 +85,7 @@ function determineXAxisType(inputChartDef: IChartDef): "datetime" | "numeric" | 
         return "numeric";
     }
     else {
-        return "categories";
+        return "category";
     }
 }
 
@@ -98,7 +98,7 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
 
     const xaxisType = determineXAxisType(inputChartDef);
     const xaxis: ApexXAxis = {
-        type: xaxisType,
+        type: xaxisType as any, // The type in Apex is wrong. "categories" instead of "category".
         labels: {},
     };
 

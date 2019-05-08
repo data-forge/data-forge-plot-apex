@@ -651,7 +651,7 @@ describe("format chart def", () => {
             ],
         };
         const apexChartDef = formatChartDef(makeChartDef({ data }));
-        expect(apexChartDef.xaxis!.type).toBe("categories");
+        expect(apexChartDef.xaxis!.type).toBe("category");
     });
 
     it("using a datetime column for the x axis sets the apex datatype to datetie", () => {
@@ -723,7 +723,7 @@ describe("format chart def", () => {
             ],
         };
         const apexChartDef = formatChartDef(makeChartDef({ data, axisMap: { x: { series: "A" }} }));
-        expect(apexChartDef.xaxis!.type).toBe("categories");
+        expect(apexChartDef.xaxis!.type).toBe("category");
     });
 
     it("data labels are disabled", () => {
