@@ -1,3 +1,3 @@
 # data-forge-plot-apex
 
-A plugin to Data-Forge Plot for plotting charts using ApexCharts.
+This is a plugin chart template to be used with [Data-Forge Plot](https://www.npmjs.com/package/data-forge-plot).
