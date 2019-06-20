@@ -91,7 +91,7 @@ describe("format chart def", () => {
                 x: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.x,
                 y: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y,
                 y2: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y2,
-                legend: inputChartDef && inputChartDef.legend,
+                legend: inputChartDef && inputChartDef.plotConfig  && inputChartDef.plotConfig.legend,
                 dataLabels: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.dataLabels,
             },
             data: inputChartDef && inputChartDef.data || {
@@ -738,13 +738,29 @@ describe("format chart def", () => {
     });
 
     it("can show legend", () => {
-        const apexChartDef = formatChartDef(makeChartDef({ legend: { show: true }}));
+        const apexChartDef = formatChartDef(makeChartDef({ plotConfig: { legend: { show: true }}}));
         expect(apexChartDef.legend!.show).toBe(true);
     });
 
     it("can hide legend", () => {
-        const apexChartDef = formatChartDef(makeChartDef({ legend: { show: false }}));
+        const apexChartDef = formatChartDef(makeChartDef({ plotConfig: { legend: { show: false }}}));
         expect(apexChartDef.legend!.show).toBe(false);
+    });
+
+    it("can set font style for legend", () => {
+        const chartDef = {
+            plotConfig: {
+                legend: {
+                    font: {
+                        size: "10px",
+                        family: "Arial",
+                    },
+                },
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        expect(apexChartDef.legend!.fontSize).toBe("10px");
+        expect(apexChartDef.legend!.fontFamily).toBe("Arial");
     });
 
     it("can set label for xaxis", () => {

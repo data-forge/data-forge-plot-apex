@@ -184,6 +184,24 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         }
     }
 
+    const legend: ApexLegend = {
+        show: inputChartDef.plotConfig.legend && inputChartDef.plotConfig.legend.show !== undefined
+            ?  inputChartDef.plotConfig.legend.show
+            : true,
+    };
+
+    if (inputChartDef.plotConfig && inputChartDef.plotConfig.legend) {
+        if (inputChartDef.plotConfig.legend.font) {
+            if (inputChartDef.plotConfig.legend.font.size) {
+                legend.fontSize = inputChartDef.plotConfig.legend.font.size;
+            }
+
+            if (inputChartDef.plotConfig.legend.font.family) {
+                legend.fontFamily = inputChartDef.plotConfig.legend.font.family;
+            }
+        }
+    }
+
     return {
         chart: {
             type: inputChartDef.plotConfig.chartType,
@@ -197,10 +215,6 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         yaxis: yAxisConfig,
         xaxis,
         dataLabels,
-        legend: {
-            show: inputChartDef.plotConfig.legend && inputChartDef.plotConfig.legend.show !== undefined
-                ?  inputChartDef.plotConfig.legend.show
-                : true,
-        },
+        legend,
     };
 }
