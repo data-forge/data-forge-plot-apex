@@ -46,6 +46,9 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
             min: axisConfig.min,
             max: axisConfig.max,
             labels: {},
+            title: { 
+                style: {},
+            },
         };
 
         const formatString = axisConfig.format;
@@ -62,6 +65,22 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
         else {
             if (dataType === "number") {
                 yAxisConfig.labels!.formatter = value => numeral(value).format("0.00"); // Default to formatting with two decimal places for numeric data with no format string.
+            }
+        }
+
+        if (axisConfig.label) {
+            if (axisConfig.label.text) {
+                yAxisConfig.title!.text = axisConfig.label.text;
+            }
+
+            if (axisConfig.label.font) {
+                if (axisConfig.label.font.size) {
+                    yAxisConfig.title!.style!.fontSize = axisConfig.label.font.size;
+                }
+
+                if (axisConfig.label.font.family) {
+                    yAxisConfig.title!.style!.fontFamily = axisConfig.label.font.family;
+                }
             }
         }
     
@@ -100,6 +119,11 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     const xaxis: ApexXAxis = {
         type: xaxisType as any, // The type in Apex is wrong. "categories" instead of "category".
         labels: {},
+        title: {
+            style: {
+
+            },
+        },
     };
 
     const xAxisFormatString = inputChartDef.plotConfig.x && inputChartDef.plotConfig.x.format;
@@ -117,11 +141,48 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         }
     }
 
+    if (inputChartDef.plotConfig.x) {
+        if (inputChartDef.plotConfig.x.label) {
+            if (inputChartDef.plotConfig.x.label.text) {
+                xaxis.title!.text = inputChartDef.plotConfig.x.label.text;
+            }
+
+            if (inputChartDef.plotConfig.x.label.font) {
+                if (inputChartDef.plotConfig.x.label.font.size) {
+                    xaxis.title!.style!.fontSize = inputChartDef.plotConfig.x.label.font.size;
+                }
+    
+                if (inputChartDef.plotConfig.x.label.font.family) {
+                    (xaxis.title!.style! as any).fontFamily = inputChartDef.plotConfig.x.label.font.family; //TODO: Typecast to any due to missing TS types in ApexCharts.
+                }
+            }
+        }
+    }
+
     const yAxisSeries = extractSeries(inputChartDef.data, inputChartDef.axisMap.y, inputChartDef.axisMap.x)
         .concat(extractSeries(inputChartDef.data, inputChartDef.axisMap.y2, inputChartDef.axisMap.x));
 
     const yAxisConfig = extractYAxisConfiguration(inputChartDef.axisMap.y, inputChartDef.plotConfig.y || {}, false, inputChartDef.data)
         .concat(extractYAxisConfiguration(inputChartDef.axisMap.y2, inputChartDef.plotConfig.y2 || {}, true, inputChartDef.data));
+
+    const dataLabels: ApexDataLabels = {
+        enabled: false,
+        style: {},
+    };
+
+    if (inputChartDef.plotConfig && inputChartDef.plotConfig.dataLabels) {
+        dataLabels.enabled = true;
+
+        if (inputChartDef.plotConfig.dataLabels.font) {
+            if (inputChartDef.plotConfig.dataLabels.font.size) {
+                dataLabels.style!.fontSize = inputChartDef.plotConfig.dataLabels.font.size;
+            }
+
+            if (inputChartDef.plotConfig.dataLabels.font.family) {
+                dataLabels.style!.fontFamily = inputChartDef.plotConfig.dataLabels.font.family;
+            }
+        }
+    }
 
     return {
         chart: {
@@ -135,9 +196,7 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
         series: yAxisSeries,
         yaxis: yAxisConfig,
         xaxis,
-        dataLabels: {
-            enabled: false,
-        },
+        dataLabels,
         legend: {
             show: inputChartDef.plotConfig.legend && inputChartDef.plotConfig.legend.show !== undefined
                 ?  inputChartDef.plotConfig.legend.show

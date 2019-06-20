@@ -92,6 +92,7 @@ describe("format chart def", () => {
                 y: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y,
                 y2: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.y2,
                 legend: inputChartDef && inputChartDef.legend,
+                dataLabels: inputChartDef && inputChartDef.plotConfig && inputChartDef.plotConfig.dataLabels,
             },
             data: inputChartDef && inputChartDef.data || {
                 columnOrder: [],
@@ -102,7 +103,7 @@ describe("format chart def", () => {
                 x: inputChartDef && inputChartDef.axisMap && inputChartDef.axisMap.x,
                 y: inputChartDef && inputChartDef.axisMap && inputChartDef.axisMap.y || [],
                 y2: inputChartDef && inputChartDef.axisMap && inputChartDef.axisMap.y2 || [],
-            },
+            },            
         };
         return chartDef;
     }
@@ -746,137 +747,152 @@ describe("format chart def", () => {
         expect(apexChartDef.legend!.show).toBe(false);
     });
 
-    /*fio:
-
-    it("can configure legend", ()  => {
-
-        const chartDef = createMinimalChartDef({
-            data: {
-                columnOrder: ["a", "b", "c", "d", "e"],
-                columns: {
-                    a: "number",
-                    b: "number",
-                    c: "number",
-                    d: "number",
-                    e: "number",
-                },
-                index: {
-                    type: "number",
-                    values: [ 5, 6 ],
-                },
-                values: [
-                    {
-                        a: 10,
-                        b: 100,
-                        c: 1000,
-                        d: 10000,
-                        e: 100000,
-                    },
-                    {
-                        a: 20,
-                        b: 200,
-                        c: 2000,
-                        d: 20000,
-                        e: 200000,
-                    },
-                ],
-            },
-            x: "__index__",
-            y: [
-                {
-                    series: "b",
-                    x: "a",
-                },
-                {
-                    series: "c",
-                    x: "d",
-                },
-            ],
-            y2: [
-                {
-                    series: "e",
-                    x: "a",
-                },
-            ],
-            legend: {
-                show: true,
-            },
-        });
-
-        const c3ChartDef = formatChartDef(chartDef);
-        expect(c3ChartDef).toEqual({
-            size: {
-                width: 800,
-                height: 600,
-            },
-            data: {
-                xs: {
-                    b: "a",
-                    c: "d",
-                    e: "a",
-                },
-                columns: [
-                    [
-                        "b",
-                        100,
-                        200,
-                    ],
-                    [
-                        "a",
-                        10,
-                        20,
-                    ],
-                    [
-                        "c",
-                        1000,
-                        2000,
-                    ],
-                    [
-                        "d",
-                        10000,
-                        20000,
-                    ],
-                    [
-                        "e",
-                        100000,
-                        200000,
-                    ],
-                ],
-                type: "line",
-                axes: {
-                    b: "y",
-                    c: "y",
-                    e: "y2",
-                },
-                names: {},
-            },
-            axis: {
+    it("can set label for xaxis", () => {
+        const chartDef = {
+            plotConfig: {
                 x: {
-                    show: true,
-                    type: "indexed",
-                    label: {},
-                },
-                y: {
-                    show: true,
-                    type: "indexed",
-                    label: {},
-                },
-                y2: {
-                    show: true,
-                    type: "indexed",
-                    label: {},
+                    label: {
+                        text: "A great label",                       
+                    },
                 },
             },
-            transition: {
-                duration: 0,
-            },
-            point: {
-                show: false,
-            },
-            legend: {
-                show: true,
-            },
-        });
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        expect(apexChartDef.xaxis!.title!.text).toBe("A great label");
     });
-    */
+
+    it("can set font style for xaxis", () => {
+        const chartDef = {
+            plotConfig: {
+                x: {
+                    label: {
+                        font: {
+                            size: "10px",
+                            family: "Arial",
+                        },
+                    },
+                },
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        const style: any = apexChartDef.xaxis!.title!.style!; //TODO: Typecast to any due to out of date types in ApexCharts.
+        expect(style.fontSize).toBe("10px");
+        expect(style.fontFamily).toBe("Arial");
+    });
+
+    it("can set label for first yaxis", () => {
+        const chartDef = {
+            data: oneColumnTestData,
+            plotConfig: {
+                y: {
+                    label: {
+                        text: "A great label",                       
+                    },
+                },
+            },
+            axisMap: {
+                y: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        expect((apexChartDef.yaxis as ApexYAxis[])[0].title!.text).toBe("A great label");
+    });
+
+    it("can set font style for first yaxis", () => {
+        const chartDef = {
+            data: oneColumnTestData,
+            plotConfig: {
+                y: {
+                    label: {
+                        font: {
+                            size: "12px",
+                            family: "Courier New",
+                        },
+                    },
+                },
+            },
+            axisMap: {
+                y: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        const style = (apexChartDef.yaxis as ApexYAxis[])[0].title!.style!;
+        expect(style.fontSize).toBe("12px");
+        expect(style.fontFamily).toBe("Courier New");
+    });
+
+    it("can set label for 2nd yaxis", () => {
+        const chartDef = {
+            data: oneColumnTestData,
+            plotConfig: {
+                y2: {
+                    label: {
+                        text: "A great label",                       
+                    },
+                },
+            },
+            axisMap: {
+                y2: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        expect((apexChartDef.yaxis as ApexYAxis[])[0].title!.text).toBe("A great label");
+    });
+
+    it("can set font style for 2nd yaxis", () => {
+        const chartDef = {
+            data: oneColumnTestData,
+            plotConfig: {
+                y2: {
+                    label: {
+                        font: {
+                            size: "13px",
+                            family: "Times New Roman",
+                        },
+                    },
+                },
+            },
+            axisMap: {
+                y2: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        const style = (apexChartDef.yaxis as ApexYAxis[])[0].title!.style!;
+        expect(style.fontSize).toBe("13px");
+        expect(style.fontFamily).toBe("Times New Roman");
+    });
+
+    it("can configure font style for data labels", () => {
+        const chartDef = {
+            plotConfig: {
+                dataLabels: {
+                    font: {
+                        size: "22px",
+                        family: "The best font",
+                    },
+                },
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        expect(apexChartDef.dataLabels!.enabled).toBe(true); //TODO: Also want an explicit way to enable disable data labels.
+        const style = apexChartDef.dataLabels!.style!;
+        expect(style.fontSize).toBe("22px");
+        expect(style.fontFamily).toBe("The best font");
+    });
 });
