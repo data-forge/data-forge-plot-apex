@@ -45,7 +45,9 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
             show,
             min: axisConfig.min,
             max: axisConfig.max,
-            labels: {},
+            labels: {
+                style: {},
+            },
             title: { 
                 style: {},
             },
@@ -80,6 +82,18 @@ function extractYAxisConfiguration(seriesConfigs: IYAxisSeriesConfig[], axisConf
 
                 if (axisConfig.label.font.family) {
                     yAxisConfig.title!.style!.fontFamily = axisConfig.label.font.family;
+                }
+            }
+        }
+
+        if (axisConfig.ticks) {
+            if (axisConfig.ticks.font) {
+                if (axisConfig.ticks.font.size) {
+                    yAxisConfig.labels!.style!.fontSize = axisConfig.ticks.font.size;
+                }
+
+                if (axisConfig.ticks.font.family) {
+                    yAxisConfig.labels!.style!.fontFamily = axisConfig.ticks.font.family;
                 }
             }
         }
@@ -118,8 +132,12 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     const xaxisType = determineXAxisType(inputChartDef);
     const xaxis: ApexXAxis = {
         type: xaxisType as any, // The type in Apex is wrong. "categories" instead of "category".
-        labels: {},
         title: {
+            style: {
+
+            },
+        },
+        labels: {
             style: {
 
             },
@@ -154,6 +172,18 @@ export function formatChartDef(inputChartDef: IChartDef): ApexOptions {
     
                 if (inputChartDef.plotConfig.x.label.font.family) {
                     (xaxis.title!.style! as any).fontFamily = inputChartDef.plotConfig.x.label.font.family; //TODO: Typecast to any due to missing TS types in ApexCharts.
+                }
+            }
+        }
+
+        if (inputChartDef.plotConfig.x.ticks) {
+            if (inputChartDef.plotConfig.x.ticks.font) {
+                if (inputChartDef.plotConfig.x.ticks.font.size) {
+                    xaxis.labels!.style!.fontSize = inputChartDef.plotConfig.x.ticks.font.size;
+                }
+    
+                if (inputChartDef.plotConfig.x.ticks.font.family) {
+                    xaxis.labels!.style!.fontFamily = inputChartDef.plotConfig.x.ticks.font.family;
                 }
             }
         }

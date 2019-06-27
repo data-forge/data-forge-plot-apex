@@ -777,7 +777,7 @@ describe("format chart def", () => {
         expect(apexChartDef.xaxis!.title!.text).toBe("A great label");
     });
 
-    it("can set font style for xaxis", () => {
+    it("can set font style for xaxis label", () => {
         const chartDef = {
             plotConfig: {
                 x: {
@@ -792,6 +792,25 @@ describe("format chart def", () => {
         };
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
         const style: any = apexChartDef.xaxis!.title!.style!; //TODO: Typecast to any due to out of date types in ApexCharts.
+        expect(style.fontSize).toBe("10px");
+        expect(style.fontFamily).toBe("Arial");
+    });
+
+    it("can set font style for xaxis ticks", () => {
+        const chartDef = {
+            plotConfig: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: "10px",
+                            family: "Arial",
+                        },
+                    },
+                },
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        const style = apexChartDef.xaxis!.labels!.style!;
         expect(style.fontSize).toBe("10px");
         expect(style.fontFamily).toBe("Arial");
     });
@@ -818,7 +837,7 @@ describe("format chart def", () => {
         expect((apexChartDef.yaxis as ApexYAxis[])[0].title!.text).toBe("A great label");
     });
 
-    it("can set font style for first yaxis", () => {
+    it("can set font style for first yaxis label", () => {
         const chartDef = {
             data: oneColumnTestData,
             plotConfig: {
@@ -845,6 +864,33 @@ describe("format chart def", () => {
         expect(style.fontFamily).toBe("Courier New");
     });
 
+    it("can set font style for first yaxis ticks", () => {
+        const chartDef = {
+            data: oneColumnTestData,
+            plotConfig: {
+                y: {
+                    ticks: {
+                        font: {
+                            size: "12px",
+                            family: "Courier New",
+                        },
+                    },
+                },
+            },
+            axisMap: {
+                y: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        const style = (apexChartDef.yaxis as ApexYAxis[])[0].labels!.style!;
+        expect(style.fontSize).toBe("12px");
+        expect(style.fontFamily).toBe("Courier New");
+    });
+
     it("can set label for 2nd yaxis", () => {
         const chartDef = {
             data: oneColumnTestData,
@@ -867,7 +913,7 @@ describe("format chart def", () => {
         expect((apexChartDef.yaxis as ApexYAxis[])[0].title!.text).toBe("A great label");
     });
 
-    it("can set font style for 2nd yaxis", () => {
+    it("can set font style for 2nd yaxis label", () => {
         const chartDef = {
             data: oneColumnTestData,
             plotConfig: {
@@ -890,6 +936,33 @@ describe("format chart def", () => {
         };
         const apexChartDef = formatChartDef(makeChartDef(chartDef));
         const style = (apexChartDef.yaxis as ApexYAxis[])[0].title!.style!;
+        expect(style.fontSize).toBe("13px");
+        expect(style.fontFamily).toBe("Times New Roman");
+    });
+
+    it("can set font style for 2nd yaxis ticks", () => {
+        const chartDef = {
+            data: oneColumnTestData,
+            plotConfig: {
+                y2: {
+                    ticks: {
+                        font: {
+                            size: "13px",
+                            family: "Times New Roman",
+                        },
+                    },
+                },
+            },
+            axisMap: {
+                y2: [
+                    {
+                        series: "x",
+                    },
+                ],
+            },
+        };
+        const apexChartDef = formatChartDef(makeChartDef(chartDef));
+        const style = (apexChartDef.yaxis as ApexYAxis[])[0].labels!.style!;
         expect(style.fontSize).toBe("13px");
         expect(style.fontFamily).toBe("Times New Roman");
     });
