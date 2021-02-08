@@ -1,3 +1,6 @@
 # data-forge-plot/apex
 
-This is a plugin chart template to be used with [Data-Forge Plot](https://www.npmjs.com/package/data-forge-plot).
+This library is no longer supported.
+
+Please check out [Plot](https://www.npmjs.com/package/plot) or [Data-Forge Plot](https://www.npmjs.com/package/data-forge-plot).
+
